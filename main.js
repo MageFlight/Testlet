@@ -1,3 +1,5 @@
+let currentQuestion = null;
+
 function hideResult(event) {
     event.target.parentElement.style.display = "none";
 }
@@ -25,26 +27,26 @@ function getNextQuestion() {
 
 function onQuestionClick(event) {
     let buttonID = event.target.id;
-    let info = buttonID.split(";");
-    let questionNum = parseInt(info[0]);
-    let answerChoice = parseInt(info[1]);
+    selectAnswer(buttonID);
+}
 
-    let questionInfo = questions[questionNum];
-
+function selectAnswer(id) {
+    let index = parseInt(id.match(/\d+/));
+    console.log(index, currentQuestion.correctIndex);
     let resultBox;
-    if (questionInfo.correctIndex == answerChoice) {
+    if (currentQuestion.correctIndex == index) {
         resultBox = document.querySelector("#correct-box");
-        questionInfo.correct++;
+        currentQuestion.correct++;
 
     } else {
-        document.querySelector("#correct-answer").textContent = questionInfo.answers[questionInfo.correctIndex];
+        document.querySelector("#correct-answer").textContent = currentQuestion.answers[currentQuestion.correctIndex];
         resultBox = document.querySelector("#incorrect-box");
-        questionInfo.incorrect++;
+        currentQuestion.incorrect++;
     }
 
-    questionInfo.age = 0;
+    currentQuestion.age = 0;
     for (question of questions) {
-        if (question != questionInfo) question.age++;
+        if (question != currentQuestion) question.age++;
     }
 
     resultBox.style.display = "";
@@ -53,6 +55,7 @@ function onQuestionClick(event) {
 }
 
 function populateQuestion(questionInfo) {
+    currentQuestion = questionInfo;
     document.querySelector("#question-text").textContent = questionInfo.questionText;
 
     let answerOptions = [];
@@ -62,7 +65,7 @@ function populateQuestion(questionInfo) {
         let answerText = questionInfo.answers[i];
         let answerOption = document.createElement("div");
         answerOption.classList.add("answer-button");
-        answerOption.id = `${questions.indexOf(questionInfo)};${i}`;
+        answerOption.id = `answer${i}`;
         answerOption.innerText = answerText;
         answerOption.addEventListener("click", onQuestionClick);
         answerOptions.push(answerOption);
@@ -72,7 +75,21 @@ function populateQuestion(questionInfo) {
     document.querySelector("#answer-choices").append(...answerOptions);
 }
 
+function hideAllResults() {
+    document.querySelectorAll(".result-dialog").forEach(element => element.style.display = "none");
+}
+
 function setup() {
     document.querySelectorAll(".continue-button").forEach(button => button.addEventListener("click", hideResult));
+    document.addEventListener("keydown", e => {
+        if (e.code.toLowerCase() == "space") hideAllResults();
+        const digit = e.code.match(/\d/);
+        console.log(e.code)
+        console.log(digit);
+        if (!digit) return;
+
+        selectAnswer(document.querySelector("#answer-choices").children[parseInt(digit[0]) - 1].id);
+    })
+
     populateQuestion(getNextQuestion());
 }
