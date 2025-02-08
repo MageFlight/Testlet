@@ -1,7 +1,9 @@
 let currentQuestion = null;
+let onResultScreen = false;
 
 function hideResult(event) {
     event.target.parentElement.style.display = "none";
+    onResultScreen = false;
 }
 
 function getNextQuestion() {
@@ -52,6 +54,7 @@ function selectAnswer(id) {
     resultBox.style.display = "";
 
     populateQuestion(getNextQuestion());
+    onResultScreen = true;
 }
 
 function populateQuestion(questionInfo) {
@@ -77,12 +80,14 @@ function populateQuestion(questionInfo) {
 
 function hideAllResults() {
     document.querySelectorAll(".result-dialog").forEach(element => element.style.display = "none");
+    onResultScreen = false;
 }
 
 function setup() {
     document.querySelectorAll(".continue-button").forEach(button => button.addEventListener("click", hideResult));
     document.addEventListener("keydown", e => {
         if (e.code.toLowerCase() == "space") hideAllResults();
+        if (onResultScreen) return;
         const digit = e.code.match(/\d/);
         console.log(e.code)
         console.log(digit);
