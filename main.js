@@ -47,6 +47,10 @@ let questions = [
     }
 ];
 
+function hideResult(event) {
+    event.target.parentElement.style.display = "none";
+}
+
 function onQuestionClick(event) {
     let buttonID = event.target.id;
     let info = buttonID.split(";");
@@ -96,4 +100,9 @@ function populateQuestion(question) {
 
     shuffle(answerOptions);
     document.querySelector("#answer-choices").append(...answerOptions);
+}
+
+function setup() {
+    document.querySelectorAll(".continue-button").forEach(button => button.addEventListener("click", hideResult));
+    populateQuestion(0);
 }

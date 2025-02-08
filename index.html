@@ -5,12 +5,12 @@
         <link href="main.css" rel="stylesheet"/>
         <script src="main.js"></script>
     </head>
-    <body onload="populateQuestion(0)">
+    <body onload="setup()">
         <div id="question-section" class="main-content">
             <div id="question-text"></div>
             <div id="answer-choices"></div>
         </div>
-        <div id="correct-box" class="main-content">
+        <div id="correct-box" class="main-content" style="display: none;">
             <div class="result">Correct!</div>
             <div class="continue-button">Continue</div>
         </div>
