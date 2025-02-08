@@ -1,70 +1,3 @@
-let questions = [
-    {
-        question: "What's the meaning of life?",
-        answers: [
-            "idk", "death", "taxes", "work"
-        ],
-        correctAnswer: 0,
-        shuffle: true,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    },
-    {
-        question: "What the flip is that",
-        answers: [
-            "egg", "gge", "lock", "rock"
-        ],
-        correctAnswer: 3,
-        shuffle: true,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    },
-    {
-        question: "True or False: You are addicted",
-        answers: [
-            "True", "False"
-        ],
-        correctAnswer: 0,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    },
-    {
-        question: "What is 532 * 1205 + 53?",
-        answers: [
-            "669,256", "641,113", "544,102", "712,821"
-        ],
-        correctAnswer: 1,
-        shuffle: true,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    },
-    {
-        question: "Are we there yet?",
-        answers: [
-            "No", "Not yet", "Nah", "Yesn't"
-        ],
-        correctAnswer: 2,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    },
-    {
-        question: "What's the best operating system?",
-        answers: [
-            "Windows", "MacOS", "GNU Linux"
-        ],
-        correctAnswer: 2,
-        shuffle: true,
-        correct: 0,
-        incorrect: 0,
-        age: Infinity,
-    }
-];
-
 function hideResult(event) {
     event.target.parentElement.style.display = "none";
 }
@@ -99,12 +32,12 @@ function onQuestionClick(event) {
     let questionInfo = questions[questionNum];
 
     let resultBox;
-    if (questionInfo.correctAnswer == answerChoice) {
+    if (questionInfo.correctIndex == answerChoice) {
         resultBox = document.querySelector("#correct-box");
         questionInfo.correct++;
 
     } else {
-        document.querySelector("#correct-answer").textContent = questionInfo.answers[questionInfo.correctAnswer];
+        document.querySelector("#correct-answer").textContent = questionInfo.answers[questionInfo.correctIndex];
         resultBox = document.querySelector("#incorrect-box");
         questionInfo.incorrect++;
     }
@@ -119,19 +52,8 @@ function onQuestionClick(event) {
     populateQuestion(getNextQuestion());
 }
 
-function shuffle(array) {
-    let currentIndex = array.length;
-
-    while (currentIndex != 0) {
-        let randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-    }
-}
-
 function populateQuestion(questionInfo) {
-    document.querySelector("#question-text").textContent = questionInfo.question;
+    document.querySelector("#question-text").textContent = questionInfo.questionText;
 
     let answerOptions = [];
 
