@@ -4,7 +4,7 @@ body {
     color: white;
 }
 
-#question-section {
+.main-content {
     width: 75%;
     height: 75%;
     position: absolute;
@@ -12,9 +12,38 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    background-color: #333;
     border-radius: 2em;
     padding: 2em;
+}
+
+#question-section {
+    background-color: #333;
+}
+
+#correct-box {
+    background-color: rgb(63, 226, 90);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#incorrect-box {
+    background-color: rgb(196, 62, 62);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    color:black;
+    font-size: 20pt;
+}
+
+.result {
+    color: black;
+    font-size: 50pt;
+    font-weight: bold;
+}
+
+.next-button {
+    background-color: #555;
 }
 
 #question-text {
