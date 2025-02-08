@@ -62,9 +62,6 @@ function onQuestionClick(event) {
     }
 
     resultBox.style.display = "";
-    setTimeout(() => {
-        resultBox.style.display = "none";
-    }, 2000);
 
     populateQuestion(question + 1);
 }
