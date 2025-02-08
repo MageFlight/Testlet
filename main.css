@@ -74,6 +74,7 @@ body {
 
 .answer-button:hover {
     background-color: #777;
+    cursor: pointer;
 }
 
 .answer-button:active {
