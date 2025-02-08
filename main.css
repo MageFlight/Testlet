@@ -28,12 +28,19 @@ body {
 #answer-choices {
     width: 100%;
     height: 50%;
-    border-collapse: collapse;
+    display: flex;
+    justify-content: stretch;
 }
 
 .answer-button {
     background-color: #555;
     border: 0.2em solid #aaa;
+    border-radius: 2em;
+    width: 100%;
+    margin: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .answer-button:hover {
