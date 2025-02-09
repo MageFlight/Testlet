@@ -1,5 +1,7 @@
 let currentQuestion = null;
 let onResultScreen = false;
+let currentBlock = [];
+let blockIndex = 0;
 
 function hideResult(event) {
     event.target.parentElement.style.display = "none";
@@ -7,7 +9,7 @@ function hideResult(event) {
 }
 
 function getNextQuestion() {
-    let questionPriority = questions.toSorted((a, b) => {
+    let questionPriority = currentBlock.toSorted((a, b) => {
         let totalA = a.correct + a.incorrect;
         let totalB = b.correct + b.incorrect;
         let scoreA = totalA == 0 ? -1 : a.correct / totalA;
@@ -47,11 +49,25 @@ function selectAnswer(id) {
     }
 
     currentQuestion.age = 0;
-    for (question of questions) {
+    for (question of currentBlock) {
         if (question != currentQuestion) question.age++;
     }
 
     resultBox.style.display = "";
+
+    let knownQuestions = 0;
+    for (question of currentBlock) {
+        if (question.correct + question.incorrect >= 3 && question.correct / (question.correct + question.incorrect) >= 0.8)
+            knownQuestions++;
+    }
+
+    console.log("Known questions ", knownQuestions);
+
+    if (knownQuestions == currentBlock.length) {
+        blockIndex += 10;
+        reloadBlock();
+        alert("You finished the block!")
+    }
 
     populateQuestion(getNextQuestion());
     onResultScreen = true;
@@ -83,6 +99,16 @@ function hideAllResults() {
     onResultScreen = false;
 }
 
+function reloadBlock() {
+    if (blockIndex + currentBlock.length == questions.length - 1) {
+        return false;
+    }
+
+    let endIndex = Math.min(blockIndex + 10, questions.length - 1);
+    currentBlock = questions.slice(blockIndex, endIndex);
+    return true;
+}
+
 function setup() {
     document.querySelectorAll(".continue-button").forEach(button => button.addEventListener("click", hideResult));
     document.addEventListener("keydown", e => {
@@ -95,6 +121,8 @@ function setup() {
 
         selectAnswer(document.querySelector("#answer-choices").children[parseInt(digit[0]) - 1].id);
     })
+
+    reloadBlock();
 
     populateQuestion(getNextQuestion());
 }
