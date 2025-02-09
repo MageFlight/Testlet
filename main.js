@@ -135,6 +135,9 @@ function hideAllResults() {
 }
 
 function reloadBlock() {
+    document.querySelector("#answered-questions").style.width = '0%';
+    document.querySelector("#correct-percentage").style.width = '0%';
+
     if (blockIndex + currentBlock.length == questions.length - 1) {
         return false;
     }
@@ -156,6 +159,5 @@ function setup() {
     })
 
     reloadBlock();
-
     populateQuestion(getNextQuestion());
 }
