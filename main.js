@@ -57,7 +57,7 @@ function selectAnswer(id) {
 
     let knownQuestions = 0;
     for (question of currentBlock) {
-        if (question.correct + question.incorrect >= 3 && question.correct / (question.correct + question.incorrect) >= 0.8)
+        if (question.correct + question.incorrect >= 3 && question.correct / (question.correct + question.incorrect) >= 0.7)
             knownQuestions++;
     }
 
