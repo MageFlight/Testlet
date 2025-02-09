@@ -57,16 +57,17 @@ function selectAnswer(id) {
 
     let knownQuestions = 0;
     for (question of currentBlock) {
-        if (question.correct + question.incorrect >= 3 && question.correct / (question.correct + question.incorrect) >= 0.7)
+        if (question.correct + question.incorrect >= 1 && question.correct / (question.correct + question.incorrect) >= 0.7)
             knownQuestions++;
     }
 
     console.log("Known questions ", knownQuestions);
 
     if (knownQuestions == currentBlock.length) {
+        populateSummary();
         blockIndex += 10;
         reloadBlock();
-        alert("You finished the block!")
+        onResultScreen = true;
     }
 
     populateQuestion(getNextQuestion());
@@ -94,6 +95,30 @@ function populateQuestion(questionInfo) {
     document.querySelector("#answer-choices").append(...answerOptions);
 }
 
+function populateSummary() {
+    console.log("populating summary");
+    let summary = [];
+    for (question of currentBlock) {
+        let questionSummary = document.createElement("template");
+        // TODO: Security
+        let confidence = question.correct / (question.correct + question.incorrect) * 100;
+        questionSummary.innerHTML = `<div class="summary-item">
+            <div class="summary-question">${question.questionText}</div>
+            <div class="confidence-summary">
+                <div class="confidence-bar">
+                    <div style="width:${confidence}%"></div>
+                </div>
+                <span>${confidence.toFixed(0)}%</span>
+            </div>
+        </div>`;
+        summary.push(questionSummary.content);
+    }
+
+    document.querySelector("#summary").textContent = '';
+    document.querySelector("#summary").append(...summary);
+    document.querySelector("#block-summary").style.display = '';
+}
+
 function hideAllResults() {
     document.querySelectorAll(".result-dialog").forEach(element => element.style.display = "none");
     onResultScreen = false;
@@ -115,8 +140,6 @@ function setup() {
         if (e.code.toLowerCase() == "space") hideAllResults();
         if (onResultScreen) return;
         const digit = e.code.match(/\d/);
-        console.log(e.code)
-        console.log(digit);
         if (!digit) return;
 
         selectAnswer(document.querySelector("#answer-choices").children[parseInt(digit[0]) - 1].id);
