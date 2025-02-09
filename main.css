@@ -16,7 +16,8 @@ body {
     padding: 2em;
 }
 
-#question-section {
+#question-section,
+#block-summary {
     background-color: #333;
 }
 
@@ -81,7 +82,7 @@ body {
     background-color: #555;
     border: 0.2em solid #aaa;
     border-radius: 2em;
-    width: 100%;
+    width: 100%; /* TODO: Make this auto*/
     margin: 0.5em;
     display: flex;
     justify-content: center;
@@ -95,4 +96,56 @@ body {
 
 .answer-button:active {
     background-color: #999;
+}
+
+#block-summary > h1 {
+    font-size: 40pt;
+    margin-bottom: 1em;
+}
+
+#summary {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: 1em auto;
+    height: 50%;
+    overflow: scroll;
+}
+
+.summary-item {
+    background-color: #555;
+    margin: 0.5em;
+    padding: 2em;
+    display: flex;
+    border-radius: 1em;
+}
+
+.summary-question {
+    width: 50%;
+    font-size: 1.8em;
+    padding: 0 0.5em;
+}
+
+.confidence-summary {
+    width:50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confidence-summary > span {
+    font-size: 1.1em;
+}
+
+.confidence-bar {
+    background-color: rgb(196, 62, 62);
+    height: 2em;
+    width: 80%;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.confidence-bar > div {
+    height: 100%;
+    background-color:rgb(63, 226, 90);
 }
