@@ -149,3 +149,23 @@ body {
     height: 100%;
     background-color:rgb(63, 226, 90);
 }
+
+#section-progress {
+    height: 1em;
+    width: 100%;
+    background-color: #555;
+    overflow: hidden;
+    border-radius: 1em;
+}
+
+#answered-questions {
+    height: 100%;
+    background-color: rgb(43, 160, 63);
+    border-radius: 1rem;
+}
+
+#correct-percentage {
+    height: 100%;
+    background-color: rgb(63, 226, 90);
+    border-radius: 1rem;
+}

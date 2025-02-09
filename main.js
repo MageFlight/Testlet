@@ -55,15 +55,25 @@ function selectAnswer(id) {
 
     resultBox.style.display = "";
 
-    let knownQuestions = 0;
+    let answeredQuestions = 0;
+    let confidentQuestions = 0;
+    let totalViews = 0;
+    let totalCorrect = 0;
     for (question of currentBlock) {
-        if (question.correct + question.incorrect >= 1 && question.correct / (question.correct + question.incorrect) >= 0.7)
-            knownQuestions++;
+        let views = question.correct + question.incorrect
+        totalViews += views;
+        totalCorrect += question.correct;
+        answeredQuestions += Math.min(views, 2) / 2;
+        confidentQuestions += views > 0 ? question.correct / views >= 0.65 : 0;
     }
 
-    console.log("Known questions ", knownQuestions);
+    answeredQuestions /= currentBlock.length;
+    confidentQuestions /= currentBlock.length
+    console.log(answeredQuestions, confidentQuestions, totalCorrect / totalViews);
+    document.querySelector("#answered-questions").style.width = `${answeredQuestions * 100}%`;
+    document.querySelector("#correct-percentage").style.width = `${totalCorrect / totalViews * 100}%`;
 
-    if (knownQuestions == currentBlock.length) {
+    if (confidentQuestions == 1 && answeredQuestions == 1 && totalCorrect / totalViews >= .8) {
         populateSummary();
         blockIndex += 10;
         reloadBlock();
