@@ -1,11 +1,9 @@
 let currentQuestion = null;
-let onResultScreen = false;
 let currentBlock = [];
 let blockIndex = 0;
 
 function hideResult(event) {
     event.target.parentElement.style.display = "none";
-    onResultScreen = false;
 }
 
 function getNextQuestion() {
@@ -77,11 +75,9 @@ function selectAnswer(id) {
         populateSummary();
         blockIndex += 10;
         reloadBlock();
-        onResultScreen = true;
     }
 
     populateQuestion(getNextQuestion());
-    onResultScreen = true;
 }
 
 function populateQuestion(questionInfo) {
@@ -131,7 +127,6 @@ function populateSummary() {
 
 function hideAllResults() {
     document.querySelectorAll(".result-dialog").forEach(element => element.style.display = "none");
-    onResultScreen = false;
 }
 
 function reloadBlock() {
@@ -151,7 +146,10 @@ function setup() {
     document.querySelectorAll(".continue-button").forEach(button => button.addEventListener("click", hideResult));
     document.addEventListener("keydown", e => {
         if (e.code.toLowerCase() == "space") hideAllResults();
-        if (onResultScreen) return;
+        for (screen of document.querySelectorAll(".post-question")) {
+            console.log(screen.style.display);
+            if (!screen.style.display) return;
+        }
         const digit = e.code.match(/\d/);
         if (!digit) return;
 
